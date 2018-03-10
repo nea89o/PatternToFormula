@@ -33,7 +33,7 @@ private fun findFormula(numbers: List<Double>): String {
         increment = differences[0]
 
     // Start-value
-    val nAsExponent = nAsExponent(differences)
+    val nAsExponent = nAsExponent(differences, numbers)
     val startValueDifference = when {
         incrementsByDifference -> differences[0]             // xn
         nAsExponent            -> getBase(differences) // x^n
@@ -45,7 +45,7 @@ private fun findFormula(numbers: List<Double>): String {
     // Exponents
     var base = "n"
     var exponent = ""
-    if (nAsExponent(differences)) {
+    if (nAsExponent(differences, numbers)) {
         base = getBase(differences).cleanRedundancy() + "^"
         exponent = "n"
     } else if (!incrementsByDifference) {
@@ -113,7 +113,7 @@ private fun getExponent(secondNumber: Double, startValue: Double): Double {
     return Math.log(secondNumber - startValue) / Math.log(2.0)
 }
 
-private fun nAsExponent(differences: List<Double>): Boolean {
+private fun nAsExponent(differences: List<Double>, numbers: List<Double>): Boolean {
     val base = getBase(differences)
-    return  base == differences[0] / (differences[0] / base)
+    return  Math.log(numbers[1] - (base - 1)) / Math.log(base)  == 2.0
 }
